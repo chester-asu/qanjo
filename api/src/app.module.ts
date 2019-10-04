@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { BandModule } from './band/band.module';
-import { MembershipModule } from './membership/membership.module';
-import { GigModule } from './gig/gig.module';
-import { SetlistModule } from './setlist/setlist.module';
-import { SlotModule } from './slot/slot.module';
-import { SongModule } from './song/song.module';
-import { ListingModule } from './listing/listing.module';
+import { UserModule } from './modules/user/user.module';
+import { BandModule } from './modules/band/band.module';
+import { MembershipModule } from './modules/membership/membership.module';
+import { GigModule } from './modules/gig/gig.module';
+import { SetlistModule } from './modules/setlist/setlist.module';
+import { SlotModule } from './modules/slot/slot.module';
+import { SongModule } from './modules/song/song.module';
+import { ListingModule } from './modules/listing/listing.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ormConfig } from './ormconfig';
 

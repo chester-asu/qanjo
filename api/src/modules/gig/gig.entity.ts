@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Band } from '../band/band.entity';
 import { Setlist } from '../setlist/setlist.entity';
+import { Slot } from '../slot/slot.entity';
 
 @Entity()
 export class Gig {
@@ -22,6 +23,6 @@ export class Gig {
   @ManyToOne(type => Band, band => band.gigs)
   band: Band;
 
-  @OneToOne(type => Setlist, setlist => setlist.gig)
-  setlist: Gig;
+  @OneToOne(type => Setlist, setlist => setlist.slot)
+  slots: Slot;
 }
