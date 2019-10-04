@@ -1,0 +1,54 @@
+version: "2.1"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+      args:
+        PACKAGE_PATH: ./api
+        WORKING_DIR: /src/api
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/src
+      - /src/api/node_modules
+    env_file:
+      - ./common.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["npm", "run", "start:dev"]
+  postgres:
+    image: postgres:9.6.1
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./common.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  qanjo-ui:
+    build:
+      context: .
+      dockerfile: ./ui/Dockerfile
+      args:
+        PACKAGE_PATH: ./ui
+        WORKING_DIR: /src/ui
+    environment:
+      HTTPS: "true"
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
+      BACKEND: api:3000
+      REACT_APP_ENV: development
+    env_file:
+      - ./common.env
+    volumes:
+      - .:/src
+      - /src/ui/node_modules
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "4200:4200"
+    command: ["npm", "run", "start:dev"]
