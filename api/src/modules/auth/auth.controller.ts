@@ -4,7 +4,6 @@ import {
   UseGuards,
   UsePipes,
   Req,
-  Get,
   Body,
   Res,
 } from '@nestjs/common';
@@ -13,7 +12,7 @@ import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
 import { loginSchema } from './schema/login.schema';
 import { AuthService } from './auth.service';
 import { registerSchema } from './schema/register.schema';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -28,15 +27,13 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @UsePipes(new JoiValidationPipe(loginSchema))
   async login(
-    @Req() { user }: { user: UserDto },
+    @Req() { user }: Request & { user: UserDto },
     @Res() res: Response,
   ): Promise<Response> {
     const { access_token } = await this.authService.login(user);
     return res
       .cookie('access_token', access_token, {
-        signed: true,
-        secure: true,
-        httpOnly: true,
+        expires: new Date(Date.now() + 900000),
       })
       .send(user);
   }
@@ -55,8 +52,17 @@ export class AuthController {
     const { access_token } = await this.authService.login(user);
     return res
       .cookie('access_token', access_token, {
-        httpOnly: true,
+        expires: new Date(Date.now() + 900000),
       })
       .send(user);
+  }
+
+  /**
+   * Authenticates a user using the JWT stored inside an HTTP-Only cookie
+   */
+  @Post('authenticate')
+  @UseGuards(AuthGuard('jwt'))
+  async authentiucate(@Req() { user }: { user: UserDto }): Promise<UserDto> {
+    return user;
   }
 }
