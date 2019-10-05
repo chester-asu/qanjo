@@ -11,6 +11,7 @@ import { SongModule } from './modules/song/song.module';
 import { ListingModule } from './modules/listing/listing.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ormConfig } from './ormconfig';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ormConfig } from './ormconfig';
     SongModule,
     ListingModule,
     SlotModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
