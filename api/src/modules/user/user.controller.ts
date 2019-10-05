@@ -1,4 +1,30 @@
-import { Controller } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UsePipes,
+  UseGuards,
+  Put,
+  Query,
+  Req,
+} from '@nestjs/common';
+import { UserService } from './user.service';
+import { User } from './user.entity';
+import { createUserSchema } from './schema/create-user.schema';
+import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
-export class UserController {}
+@UseGuards(AuthGuard('jwt'))
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  // @Post('update/:id')
+  // @UsePipes(new JoiValidationPipe(createUserSchema))
+  // update(
+  //   @Query('id') id,
+  //   @Body() updateUserDto: UpdateUserDto,
+  // ): Promise<UserDto> {
+  //   return null;
+  // }
+}
