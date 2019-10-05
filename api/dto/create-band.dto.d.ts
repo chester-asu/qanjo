@@ -1,0 +1,3 @@
+type CreateBandDto = {
+  name: string;
+};
