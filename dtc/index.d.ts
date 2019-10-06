@@ -25,4 +25,8 @@ declare namespace DTC {
     email: string;
     id: number;
   };
+  type CreateMembership = {
+    bandID: number;
+    userID: number;
+  };
 }
