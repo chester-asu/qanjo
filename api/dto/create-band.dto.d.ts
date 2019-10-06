@@ -1,3 +1,0 @@
-type CreateBandDto = {
-  name: string;
-};

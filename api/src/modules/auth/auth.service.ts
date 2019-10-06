@@ -13,7 +13,10 @@ export class AuthService {
   /**
    * Determine if a credential belongs to a valid user
    */
-  async validateUser({ username, password }: LoginDto): Promise<JwtPayloadDto> {
+  async validateUser({
+    username,
+    password,
+  }: DTC.Login): Promise<DTC.JwtPayload> {
     const {
       hashedPassword,
       email,
@@ -31,13 +34,13 @@ export class AuthService {
   /**
    * Sign and return a JWT for a user that has already been validated
    */
-  async login(payload: UserDto): Promise<{ access_token: string }> {
+  async login(payload: DTC.User): Promise<{ access_token: string }> {
     return {
       access_token: this.jwtService.sign(payload),
     };
   }
 
-  async register(registerDto: RegisterDto): Promise<UserDto> {
+  async register(registerDto: DTC.Register): Promise<DTC.User> {
     const { username, email, id } = await this.userService.create(registerDto);
     return { username, email, id };
   }

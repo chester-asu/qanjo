@@ -27,7 +27,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @UsePipes(new JoiValidationPipe(loginSchema))
   async login(
-    @Req() { user }: Request & { user: UserDto },
+    @Req() { user }: Request & { user: DTC.User },
     @Res() res: Response,
   ): Promise<Response> {
     const { access_token } = await this.authService.login(user);
@@ -45,7 +45,7 @@ export class AuthController {
   @Post('register')
   @UsePipes(new JoiValidationPipe(registerSchema))
   async register(
-    @Body() registerDto: RegisterDto,
+    @Body() registerDto: DTC.Register,
     @Res() res: Response,
   ): Promise<Response> {
     const user = await this.authService.register(registerDto);
@@ -62,7 +62,7 @@ export class AuthController {
    */
   @Post('authenticate')
   @UseGuards(AuthGuard('jwt'))
-  async authentiucate(@Req() { user }: { user: UserDto }): Promise<UserDto> {
+  async authentiucate(@Req() { user }: { user: DTC.User }): Promise<DTC.User> {
     return user;
   }
 }

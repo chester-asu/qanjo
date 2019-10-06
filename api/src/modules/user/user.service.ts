@@ -16,7 +16,7 @@ export class UserService {
     private readonly userRepo: Repository<User>,
   ) {}
 
-  async create(registerDto: RegisterDto): Promise<User> {
+  async create(registerDto: DTC.Register): Promise<User> {
     const hashedPassword = await Bcrypt.hash(registerDto.password, 12);
     const user = { hashedPassword, ...registerDto };
     const userIsUnique = await Promise.all([
@@ -37,7 +37,7 @@ export class UserService {
     return this.userRepo.save(user);
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: number, updateUserDto: DTC.UpdateUser): Promise<User> {
     const user = await this.findOne({ id });
     if (!user) {
       throw new NotFoundException();
@@ -45,7 +45,7 @@ export class UserService {
     return this.userRepo.save({ ...updateUserDto, id });
   }
 
-  async findOne(user: DeepPartial<User>): Promise<UserDto> {
+  async findOne(user: DeepPartial<User>): Promise<DTC.User> {
     return this.userRepo.findOne(user).then(({ username, id, email }) => {
       return { username, id, email };
     });

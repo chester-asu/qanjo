@@ -1,0 +1,11 @@
+{
+  "name": "qanjo-data-transfer-contract",
+  "version": "0.1.0",
+  "description": "data transfer contracts for qanjo",
+  "main": "index.js",
+  "scripts": {
+    "publish": "cp ./index.d.ts ../api/dtc.d.ts && cp ./index.d.ts ../ui/dtc.d.ts"
+  },
+  "author": "",
+  "license": "ISC"
+}
