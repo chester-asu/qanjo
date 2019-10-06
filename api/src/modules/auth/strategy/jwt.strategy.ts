@@ -24,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * This is a "magic" method Passport will use to validate requests
    * made to enpoints using the `jwt` strategy
    */
-  async validate(payload: JwtPayloadDto): Promise<UserDto> {
+  async validate(payload: DTC.JwtPayload): Promise<DTC.User> {
     const user = await this.userService.findOne(payload);
     if (!user) {
       throw new UnauthorizedException();

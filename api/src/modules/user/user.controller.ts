@@ -19,12 +19,4 @@ import { AuthGuard } from '@nestjs/passport';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // @Post('update/:id')
-  // @UsePipes(new JoiValidationPipe(createUserSchema))
-  // update(
-  //   @Query('id') id,
-  //   @Body() updateUserDto: UpdateUserDto,
-  // ): Promise<UserDto> {
-  //   return null;
-  // }
 }

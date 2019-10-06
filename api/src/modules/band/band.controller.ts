@@ -13,7 +13,7 @@ export class BandController {
 
   @Post()
   @UsePipes(new JoiValidationPipe(createBandSchema))
-  create(@Req() { body, user }: { body: CreateBandDto; user: User }): Promise<
+  create(@Req() { body, user }: { body: DTC.CreateBand; user: User }): Promise<
     Band
   > {
     const band = { ...body, createdByUser: user };

@@ -13,7 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    * This is a "magic" method Passport will use to validate requests
    * made to enpoints using the `local` strategy
    */
-  async validate(username: string, password: string): Promise<UserDto> {
+  async validate(username: string, password: string): Promise<DTC.User> {
     const jwtPayload = await this.authService.validateUser({
       username,
       password,
