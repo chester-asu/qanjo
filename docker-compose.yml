@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: ./api/Dockerfile
       args:
+        TYPES_PATH: ./dtc
         PACKAGE_PATH: ./api
         WORKING_DIR: /src/api
     ports:
@@ -29,11 +30,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  qanjo-ui:
+  ui:
     build:
       context: .
       dockerfile: ./ui/Dockerfile
       args:
+        TYPES_PATH: ./dtc
         PACKAGE_PATH: ./ui
         WORKING_DIR: /src/ui
     environment:
