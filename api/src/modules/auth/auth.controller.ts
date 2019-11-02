@@ -13,6 +13,7 @@ import { loginSchema } from './schema/login.schema';
 import { AuthService } from './auth.service';
 import { registerSchema } from './schema/register.schema';
 import { Response, Request } from 'express';
+import { DTC } from 'dtc';
 
 @Controller('auth')
 export class AuthController {

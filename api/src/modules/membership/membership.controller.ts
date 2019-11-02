@@ -11,6 +11,7 @@ import { MembershipService } from './membership.service';
 import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { createMembershipSchema } from './schema/create-membership.schema';
+import { DTC } from 'dtc';
 
 @Controller('membership')
 @UseGuards(AuthGuard('jwt'))

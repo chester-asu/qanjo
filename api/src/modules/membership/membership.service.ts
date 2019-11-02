@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Membership } from './membership.entity';
 import { Repository, DeepPartial } from 'typeorm';
+import { DTC } from 'dtc';
 
 @Injectable()
 export class MembershipService {

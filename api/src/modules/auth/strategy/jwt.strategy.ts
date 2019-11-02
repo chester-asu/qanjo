@@ -2,6 +2,7 @@ import { Strategy, JwtFromRequestFunction } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../../modules/user/user.service';
+import { DTC } from 'dtc';
 
 const jwtFromCookie: JwtFromRequestFunction = function(req) {
   if (req && req.cookies) {

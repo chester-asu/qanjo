@@ -5,6 +5,7 @@ import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
 import { createBandSchema } from './schema/create-band.schema';
 import { Band } from './band.entity';
 import { User } from '../user/user.entity';
+import { DTC } from 'dtc';
 
 @Controller('band')
 @UseGuards(AuthGuard('jwt'))

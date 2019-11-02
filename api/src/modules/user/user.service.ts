@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial, FindConditions } from 'typeorm';
 import { User } from './user.entity';
 import * as Bcrypt from 'bcrypt';
+import { DTC } from 'dtc';
 
 @Injectable()
 export class UserService {
