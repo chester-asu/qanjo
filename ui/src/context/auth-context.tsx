@@ -1,8 +1,9 @@
 import React from "react";
-import JwtDecode from "jwt-decode";
 import { DTC } from "../../dtc";
-import { store } from "../redux/store";
-import { registerUser, loginUser } from "../redux/actions";
+import { AppState, QDispatchProp } from "../redux/store";
+import { registerUser, loginUser, logoutUser } from "../redux/actions";
+import { connect, DispatchProp, MapStateToPropsParam } from "react-redux";
+import { selectUser } from "../redux/selectors";
 
 interface AuthContext {
   user: DTC.User;
@@ -13,23 +14,34 @@ interface AuthContext {
 
 const AuthContext = React.createContext({} as AuthContext);
 
-export const useAuth = () => React.useContext(AuthContext);
+interface StateProps {
+  user: DTC.User;
+}
 
-export function AuthProvider(props: any) {
-  function login(login: DTC.Login) {
-    store.dispatch(loginUser(login));
+const mapStateToProps: MapStateToPropsParam<
+  StateProps,
+  any,
+  AppState
+> = function(state) {
+  return {
+    user: selectUser(state)
+  };
+};
+
+type Props = StateProps & { dispatch: QDispatchProp };
+
+function _AuthProvider({ user, dispatch, ...props }: Props) {
+  function register(register: DTC.Register) {
+    dispatch(registerUser(register));
   }
 
-  function register(register: DTC.Register) {
-    store.dispatch(registerUser(register));
+  function login(login: DTC.Login) {
+    dispatch(loginUser(login));
   }
 
   function logout() {
-    localStorage.removeItem("access_token");
+    dispatch(logoutUser());
   }
-
-  const access_token = localStorage.getItem("access_token");
-  const user: DTC.User | null = access_token ? JwtDecode(access_token) : null;
 
   return (
     <AuthContext.Provider
@@ -43,3 +55,9 @@ export function AuthProvider(props: any) {
     />
   );
 }
+
+export const AuthProvider = connect<StateProps, DispatchProp, any, AppState>(
+  mapStateToProps
+)(_AuthProvider);
+
+export const useAuth = () => React.useContext(AuthContext);

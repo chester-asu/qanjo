@@ -35,9 +35,9 @@ export class AuthService {
   /**
    * Sign and return a JWT for a user that has already been validated
    */
-  async login(payload: DTC.User): Promise<{ access_token: string }> {
+  async login(payload: DTC.User): Promise<DTC.Token> {
     return {
-      access_token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(payload),
     };
   }
 

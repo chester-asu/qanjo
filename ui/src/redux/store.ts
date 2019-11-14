@@ -4,7 +4,13 @@ import thunk, { ThunkDispatch } from "redux-thunk";
 
 const middleware = [thunk];
 
+export interface AppState {
+  token: string;
+}
+
+export type QDispatchProp = ThunkDispatch<AppState, undefined, AnyAction>;
+
 export const store = createStore(
   reducers,
-  applyMiddleware<ThunkDispatch<any, undefined, AnyAction>, any>(...middleware)
+  applyMiddleware<QDispatchProp, any>(...middleware)
 );

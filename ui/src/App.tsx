@@ -5,8 +5,7 @@ import { Unauthenticated } from "./views/Unauthenticated";
 import { Authenticated } from "./views/Authenticated";
 
 const App: React.FC = () => {
-  const user = useUser();
-  return user ? <Authenticated /> : <Unauthenticated />;
+  return useUser() ? <Authenticated /> : <Unauthenticated />;
 };
 
 export default App;

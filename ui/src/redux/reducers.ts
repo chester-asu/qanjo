@@ -1,45 +1,21 @@
-import { combineReducers, Action } from "redux";
+import { combineReducers } from "redux";
 import { ActionType, LoginAction } from "./actions";
-import { DTC } from "../../dtc";
 
-interface IMeta {
-  loaded: boolean;
-  loading: boolean;
-  error: any;
-}
-
-const initalUser: IMeta & { user: DTC.User | null } = {
-  loaded: false,
-  loading: false,
-  error: null,
-  user: null
-};
-
-function user(state = initalUser, action: LoginAction) {
+function token(
+  state = localStorage.getItem("token") || "",
+  action: LoginAction
+) {
   switch (action.type) {
-    case ActionType.LOGIN_SUBMIT: {
-      return {
-        loaded: false,
-        loading: true,
-        error: null,
-        user: null
-      };
-    }
-    case ActionType.LOGIN_COMMIT: {
-      return {
-        loaded: false,
-        loading: true,
-        error: null,
-        user: action.user
-      };
-    }
+    case ActionType.REGISTER_SUBMIT:
+    case ActionType.REGISTER_ROLLBACK:
+    case ActionType.LOGOUT:
+    case ActionType.LOGIN_SUBMIT:
     case ActionType.LOGIN_ROLLBACK: {
-      return {
-        loaded: false,
-        loading: true,
-        user: null,
-        error: action.error
-      };
+      return "";
+    }
+    case ActionType.REGISTER_COMMIT:
+    case ActionType.LOGIN_COMMIT: {
+      return action.token;
     }
     default: {
       return state;
@@ -47,4 +23,4 @@ function user(state = initalUser, action: LoginAction) {
   }
 }
 
-export const reducers = combineReducers({ user });
+export const reducers = combineReducers({ token });

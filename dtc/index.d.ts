@@ -1,4 +1,7 @@
 export namespace DTC {
+  type Token = {
+    token: string;
+  };
   type CreateBand = {
     name: string;
   };
@@ -28,5 +31,14 @@ export namespace DTC {
   type CreateMembership = {
     bandID: number;
     userID: number;
+  };
+  type Band = {
+    id: number;
+    name: string;
+  };
+  type Membership = {
+    id: number;
+    user: DTC.User;
+    band: DTC.Band;
   };
 }

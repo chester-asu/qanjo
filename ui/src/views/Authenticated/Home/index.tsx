@@ -1,5 +1,7 @@
 import React from "react";
+import { useUser } from "../../../context/user-context";
 
 export function Home() {
-  return <div>Home Screen</div>;
+  const user = useUser();
+  return <div>{`Hello, ${user.username}`}</div>;
 }

@@ -1,27 +1,36 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-const config: AxiosRequestConfig = {
-  baseURL: "http://localhost:3000/api/",
+const unauthenticatedConfig: AxiosRequestConfig = {
+  baseURL: "http://localhost:3000/v1",
+  timeout: 1000,
+  responseType: "json"
+};
+
+const authenticatedConfig: AxiosRequestConfig = {
+  ...unauthenticatedConfig,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
     Authorization: `Bearer ${localStorage.getItem("access_token")}`
   },
-  timeout: 1000,
-  withCredentials: true,
-  responseType: "json"
+  withCredentials: true
 };
 
-export const client = {
-  post: function(url: string, data: any) {
-    return axios.post(url, data, config);
-  },
-  patch: function(url: string, data: any) {
-    return axios.patch(url, data, config);
-  },
-  get: function(url: string) {
-    return axios.get(url, config);
-  },
-  delete: function(url: string) {
-    return axios.delete(url, config);
-  }
-};
+function clientFactory(config: AxiosRequestConfig) {
+  return {
+    post: function(url: string, data: any) {
+      return axios.post(url, data, config);
+    },
+    patch: function(url: string, data: any) {
+      return axios.patch(url, data, config);
+    },
+    get: function(url: string) {
+      return axios.get(url, config);
+    },
+    delete: function(url: string) {
+      return axios.delete(url, config);
+    }
+  };
+}
+
+export const authenticatedClient = clientFactory(authenticatedConfig);
+export const unauthenticatedClient = clientFactory(unauthenticatedConfig);
