@@ -24,6 +24,10 @@ export class BandService {
     return this.bandRepo.save(band);
   }
 
+  async getUserBands(userID: number) {
+    return this.bandRepo.find({ createdByUser: { id: userID } });
+  }
+
   private async bandIsUnique(band: {
     name: string;
     createdByUser: User;

@@ -16,6 +16,7 @@ export class MembershipService {
       user: { id: userID },
       band: { id: bandID },
     };
+    console.log(membership);
     return this.membershipRepo.save(membership);
   }
 

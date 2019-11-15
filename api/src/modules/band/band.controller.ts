@@ -1,4 +1,13 @@
-import { Controller, Post, UseGuards, UsePipes, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  UsePipes,
+  Req,
+  Get,
+  Query,
+  Param,
+} from '@nestjs/common';
 import { BandService } from './band.service';
 import { AuthGuard } from '@nestjs/passport';
 import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
@@ -19,5 +28,10 @@ export class BandController {
   > {
     const band = { ...body, createdByUser: user };
     return this.bandService.create(band);
+  }
+
+  @Get('user/:userID')
+  user(@Param('userID') userID: number): Promise<Band[]> {
+    return this.bandService.getUserBands(userID);
   }
 }

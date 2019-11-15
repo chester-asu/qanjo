@@ -1,11 +1,30 @@
 import React from "react";
-import { useAuth } from "./auth-context";
 import { DTC } from "../../dtc";
+import { MapStateToPropsParam, DispatchProp, connect } from "react-redux";
+import { AppState } from "../redux/store";
 
-const BandContext = React.createContext({} as DTC.User);
+const BandContext = React.createContext({} as DTC.Band);
+
+interface StateProps {
+  band: DTC.Band;
+}
+
+const mapStateToProps: MapStateToPropsParam<
+  StateProps,
+  any,
+  AppState
+> = function(state) {
+  return {
+    band: state.band
+  };
+};
 
 export const useBand = () => React.useContext(BandContext);
 
-export function BandProvider(props: any) {
-  return <BandContext.Provider value={{}} {...props} />;
+function _BandProvider({ band, ...props }: StateProps & DispatchProp) {
+  return <BandContext.Provider value={band} {...props} />;
 }
+
+export const BandProvider = connect<StateProps, DispatchProp, any, AppState>(
+  mapStateToProps
+)(_BandProvider);

@@ -34,45 +34,48 @@ export function Register() {
     Object.keys(touched).length === 0;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username</label>
-        <input
-          value={values.username}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          name="username"
-          placeholder="enter a username"
-          type="text"
-        />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          name="password"
-          placeholder="enter a password"
-          type="password"
-        />
-      </div>
-      <div>
-        <label>Email</label>
-        <input
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          name="email"
-          placeholder="enter your email"
-          type="email"
-        />
-      </div>
-      <div>
-        <button type="submit" disabled={disableSubmit}>
-          Howdy
-        </button>
-      </div>
-    </form>
+    <div className="container">
+      <h1>Register</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Username</label>
+          <input
+            value={values.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            name="username"
+            placeholder="enter a username"
+            type="text"
+          />
+        </div>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            name="password"
+            placeholder="enter a password"
+            type="password"
+          />
+        </div>
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            name="email"
+            placeholder="enter your email"
+            type="email"
+          />
+        </div>
+        <div>
+          <button className="btn" type="submit" disabled={disableSubmit}>
+            Howdy
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

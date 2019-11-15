@@ -6,6 +6,7 @@ import {
   Param,
   UseGuards,
   Get,
+  Req,
 } from '@nestjs/common';
 import { MembershipService } from './membership.service';
 import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
@@ -20,8 +21,8 @@ export class MembershipController {
 
   @Post()
   @UsePipes(new JoiValidationPipe(createMembershipSchema))
-  create(createMembershipDto: DTC.CreateMembership) {
-    return this.membershipService.create(createMembershipDto);
+  create(@Req() { body }: { body: DTC.CreateMembership }) {
+    return this.membershipService.create(body);
   }
 
   @Delete(':id')

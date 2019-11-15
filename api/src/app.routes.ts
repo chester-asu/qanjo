@@ -6,6 +6,7 @@ import { GigModule } from './modules/gig/gig.module';
 import { ListingModule } from './modules/listing/listing.module';
 import { SetlistModule } from './modules/setlist/setlist.module';
 import { SongModule } from './modules/song/song.module';
+import { MembershipModule } from './modules/membership/membership.module';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
       ListingModule,
       SetlistModule,
       SongModule,
+      MembershipModule,
     ],
   },
 ];
