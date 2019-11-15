@@ -10,7 +10,7 @@ const authenticatedConfig: AxiosRequestConfig = {
   ...unauthenticatedConfig,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
-    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    Authorization: `Bearer ${localStorage.getItem("token")}`
   },
   withCredentials: true
 };

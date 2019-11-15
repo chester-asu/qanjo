@@ -94,7 +94,7 @@ export function createBand(createBand: DTC.CreateBand) {
       type: ActionType.REGISTER_SUBMIT
     });
     authenticatedClient
-      .post("/auth/band", createBand)
+      .post("/band", createBand)
       .then(res => {
         dispatch({
           type: ActionType.CREATE_BAND_COMMIT,

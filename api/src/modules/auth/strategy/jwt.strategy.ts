@@ -1,21 +1,14 @@
-import { Strategy, JwtFromRequestFunction } from 'passport-jwt';
+import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../../modules/user/user.service';
 import { DTC } from 'dtc';
 
-const jwtFromCookie: JwtFromRequestFunction = function(req) {
-  if (req && req.cookies) {
-    return req.cookies['access_token'];
-  }
-  return null;
-};
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly userService: UserService) {
     super({
-      jwtFromRequest: jwtFromCookie,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_KEY,
     });
