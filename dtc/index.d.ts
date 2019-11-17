@@ -50,5 +50,6 @@ export namespace DTC {
     title: string;
     key: string;
     band: DTC.Band;
+    id: number;
   };
 }

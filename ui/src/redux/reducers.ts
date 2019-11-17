@@ -5,7 +5,8 @@ import {
   FetchBandsAction,
   SetBandAction,
   CreateBandAction,
-  CreateSongAction
+  CreateSongAction,
+  FetchSongsAction
 } from "./actions";
 import { DTC } from "../../dtc";
 
@@ -35,7 +36,7 @@ function band(
   state: DTC.Band = (JSON.parse(
     localStorage.getItem("band") || "null"
   ) as any) as DTC.Band,
-  action: SetBandAction | CreateBandAction
+  action: SetBandAction & CreateBandAction
 ) {
   switch (action.type) {
     case ActionType.CREATE_BAND_COMMIT:
@@ -54,7 +55,7 @@ function band(
 function bands(state: DTC.Band[] = [], action: FetchBandsAction) {
   switch (action.type) {
     case ActionType.FETCH_BANDS_COMMIT: {
-      return action.bands;
+      return [...action.bands];
     }
     default: {
       return state;
@@ -62,10 +63,16 @@ function bands(state: DTC.Band[] = [], action: FetchBandsAction) {
   }
 }
 
-function songs(state: DTC.Song[] = [], action: CreateSongAction) {
+function songs(
+  state: DTC.Song[] = [],
+  action: CreateSongAction & FetchSongsAction
+) {
   switch (action.type) {
+    case ActionType.FETCH_SONGS_COMMIT: {
+      return [...action.songs];
+    }
     case ActionType.CREATE_SONG_COMMIT: {
-      return state.concat(action.song);
+      return [...state, action.song];
     }
     default: {
       return state;

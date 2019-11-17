@@ -11,6 +11,7 @@ export type CreateMembershipAction = Action<ActionType> & {
 };
 export type SetBandAction = Action<ActionType> & { band: DTC.Band };
 export type CreateSongAction = Action<ActionType> & { song: DTC.Song };
+export type FetchSongsAction = Action<ActionType> & { songs: DTC.Song[] };
 
 export enum ActionType {
   LOGOUT = "LOGOUT",
@@ -213,11 +214,12 @@ export function fetchSongs(band: DTC.Band) {
     dispatch({
       type: ActionType.FETCH_SONGS_SUBMIT
     });
+
     authenticatedClient
       .get(`/song/band/${band.id}`)
       .then(res => {
         dispatch({
-          type: ActionType.FETCH_SONGS_SUBMIT,
+          type: ActionType.FETCH_SONGS_COMMIT,
           songs: res.data as DTC.Song[]
         });
       })

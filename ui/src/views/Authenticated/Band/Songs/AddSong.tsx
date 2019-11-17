@@ -8,6 +8,11 @@ import {
 import { AppState, QDispatchProp } from "../../../../redux/store";
 import { createSong } from "../../../../redux/actions";
 import { useFormik } from "formik";
+import { useBand } from "../../../../context/band-context";
+
+interface OwnProps {
+  onDone: () => void;
+}
 
 interface StateProps {
   token: string;
@@ -15,7 +20,7 @@ interface StateProps {
 
 const mapStateToProps: MapStateToPropsParam<
   StateProps,
-  any,
+  OwnProps,
   AppState
 > = function(state) {
   return {
@@ -29,22 +34,18 @@ interface DispatchProps {
 
 const mapDispatchToProps: MapDispatchToPropsParam<
   DispatchProps,
-  any
+  OwnProps
 > = function(dispatch: QDispatchProp) {
   return {
     dispatchAddSong: song => dispatch(createSong(song))
   };
 };
 
-type Props = StateProps & DispatchProps & { dispatch: QDispatchProp };
+type Props = OwnProps &
+  StateProps &
+  DispatchProps & { dispatch?: QDispatchProp };
 
-const initialValues: DTC.CreateSong = {
-  title: "",
-  key: "",
-  bandID: (null as any) as number
-};
-
-function _AddSong({ token, dispatch }: Props) {
+function _AddSong({ dispatchAddSong, onDone }: Props) {
   const {
     handleSubmit,
     handleBlur,
@@ -54,50 +55,44 @@ function _AddSong({ token, dispatch }: Props) {
     touched,
     isSubmitting
   } = useFormik({
-    initialValues,
+    initialValues: {
+      title: "",
+      key: "",
+      bandID: useBand().id
+    },
     onSubmit: (values, actions) => {
-      // register(values);
+      dispatchAddSong(values);
       actions.setSubmitting(true);
+      onDone();
     }
   });
 
   return (
     <div className="container">
-      <h1>Register</h1>
-      {/* <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Username</label>
+          <label>Title</label>
           <input
-            value={values.username}
+            value={values.title}
             onChange={handleChange}
             onBlur={handleBlur}
-            name="username"
-            placeholder="enter a username"
+            name="title"
+            placeholder="enter a title"
             type="text"
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <label>Key</label>
           <input
-            value={values.password}
+            value={values.key}
             onChange={handleChange}
             onBlur={handleBlur}
-            name="password"
-            placeholder="enter a password"
-            type="password"
+            name="key"
+            placeholder="enter a key"
+            type="text"
           />
         </div>
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            name="email"
-            placeholder="enter your email"
-            type="email"
-          />
-        </div>
+
         <div>
           <button
             className="btn"
@@ -108,15 +103,15 @@ function _AddSong({ token, dispatch }: Props) {
               Object.keys(touched).length === 0
             }
           >
-            Howdy
+            Add Song
           </button>
         </div>
-      </form> */}
+      </form>
     </div>
   );
 }
 
-export const AddSong = connect<StateProps, DispatchProps, any, AppState>(
+export const AddSong = connect<StateProps, DispatchProps, OwnProps, AppState>(
   mapStateToProps,
   mapDispatchToProps
 )(_AddSong);
