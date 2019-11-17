@@ -1,7 +1,12 @@
 import React from "react";
 import { DTC } from "../../dtc";
 import { AppState, QDispatchProp } from "../redux/store";
-import { registerUser, loginUser, logoutUser } from "../redux/actions";
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  unsetBand
+} from "../redux/actions";
 import { connect, DispatchProp, MapStateToPropsParam } from "react-redux";
 import { selectUser } from "../redux/selectors";
 
@@ -10,6 +15,7 @@ interface AuthContext {
   login: (login: DTC.Login) => void;
   logout: () => void;
   register: (register: DTC.Register) => void;
+  switchBand: () => void;
 }
 
 const AuthContext = React.createContext({} as AuthContext);
@@ -43,13 +49,18 @@ function _AuthProvider({ user, dispatch, ...props }: Props) {
     dispatch(logoutUser());
   }
 
+  function switchBand() {
+    dispatch(unsetBand());
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user,
         login,
         logout,
-        register
+        register,
+        switchBand
       }}
       {...props}
     />

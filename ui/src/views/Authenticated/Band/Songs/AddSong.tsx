@@ -1,17 +1,50 @@
 import React from "react";
+import { DTC } from "../../../../../dtc";
+import {
+  MapStateToPropsParam,
+  connect,
+  MapDispatchToPropsParam
+} from "react-redux";
+import { AppState, QDispatchProp } from "../../../../redux/store";
+import { createSong } from "../../../../redux/actions";
 import { useFormik } from "formik";
-import { useAuth } from "../../../context/auth-context";
-import { DTC } from "../../../../dtc";
 
-const initialValues: DTC.Register = {
-  username: "",
-  password: "",
-  email: ""
+interface StateProps {
+  token: string;
+}
+
+const mapStateToProps: MapStateToPropsParam<
+  StateProps,
+  any,
+  AppState
+> = function(state) {
+  return {
+    token: state.token
+  };
 };
 
-export function Register() {
-  const { register } = useAuth();
+interface DispatchProps {
+  dispatchAddSong: (song: DTC.CreateSong) => void;
+}
 
+const mapDispatchToProps: MapDispatchToPropsParam<
+  DispatchProps,
+  any
+> = function(dispatch: QDispatchProp) {
+  return {
+    dispatchAddSong: song => dispatch(createSong(song))
+  };
+};
+
+type Props = StateProps & DispatchProps & { dispatch: QDispatchProp };
+
+const initialValues: DTC.CreateSong = {
+  title: "",
+  key: "",
+  bandID: (null as any) as number
+};
+
+function _AddSong({ token, dispatch }: Props) {
   const {
     handleSubmit,
     handleBlur,
@@ -23,7 +56,7 @@ export function Register() {
   } = useFormik({
     initialValues,
     onSubmit: (values, actions) => {
-      register(values);
+      // register(values);
       actions.setSubmitting(true);
     }
   });
@@ -31,7 +64,7 @@ export function Register() {
   return (
     <div className="container">
       <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username</label>
           <input
@@ -78,7 +111,12 @@ export function Register() {
             Howdy
           </button>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 }
+
+export const AddSong = connect<StateProps, DispatchProps, any, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(_AddSong);

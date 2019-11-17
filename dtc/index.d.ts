@@ -41,4 +41,14 @@ export namespace DTC {
     user: DTC.User;
     band: DTC.Band;
   };
+  type CreateSong = {
+    title: string;
+    key: string;
+    bandID: number;
+  };
+  type Song = {
+    title: string;
+    key: string;
+    band: DTC.Band;
+  };
 }

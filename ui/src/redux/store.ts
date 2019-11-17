@@ -9,6 +9,7 @@ export interface AppState {
   token: string;
   bands: DTC.Band[];
   band: DTC.Band;
+  songs: DTC.Song[];
 }
 
 export type QDispatchProp = ThunkDispatch<AppState, undefined, AnyAction>;

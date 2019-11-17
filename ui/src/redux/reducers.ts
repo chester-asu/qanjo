@@ -4,7 +4,8 @@ import {
   LoginAction,
   FetchBandsAction,
   SetBandAction,
-  CreateBandAction
+  CreateBandAction,
+  CreateSongAction
 } from "./actions";
 import { DTC } from "../../dtc";
 
@@ -31,7 +32,9 @@ function token(
 }
 
 function band(
-  state: DTC.Band = (null as any) as DTC.Band,
+  state: DTC.Band = (JSON.parse(
+    localStorage.getItem("band") || "null"
+  ) as any) as DTC.Band,
   action: SetBandAction | CreateBandAction
 ) {
   switch (action.type) {
@@ -59,4 +62,15 @@ function bands(state: DTC.Band[] = [], action: FetchBandsAction) {
   }
 }
 
-export const reducers = combineReducers({ token, bands, band });
+function songs(state: DTC.Song[] = [], action: CreateSongAction) {
+  switch (action.type) {
+    case ActionType.CREATE_SONG_COMMIT: {
+      return state.concat(action.song);
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+export const reducers = combineReducers({ token, bands, band, songs });

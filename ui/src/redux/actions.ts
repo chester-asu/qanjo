@@ -10,6 +10,7 @@ export type CreateMembershipAction = Action<ActionType> & {
   membership: DTC.Membership;
 };
 export type SetBandAction = Action<ActionType> & { band: DTC.Band };
+export type CreateSongAction = Action<ActionType> & { song: DTC.Song };
 
 export enum ActionType {
   LOGOUT = "LOGOUT",
@@ -35,11 +36,20 @@ export enum ActionType {
 
   FETCH_BANDS_SUBMIT = "FETCH_BANDS_SUBMIT",
   FETCH_BANDS_COMMIT = "FETCH_BANDS_COMMIT",
-  FETCH_BANDS_ROLLBACK = "FETCH_BANDS_ROLLBACK"
+  FETCH_BANDS_ROLLBACK = "FETCH_BANDS_ROLLBACK",
+
+  CREATE_SONG_SUBMIT = "CREATE_SONG_SUBMIT",
+  CREATE_SONG_COMMIT = "CREATE_SONG_COMMIT",
+  CREATE_SONG_ROLLBACK = "CREATE_SONG_ROLLBACK",
+
+  FETCH_SONGS_SUBMIT = "FETCH_SONGS_SUBMIT",
+  FETCH_SONGS_COMMIT = "FETCH_SONGS_COMMIT",
+  FETCH_SONGS_ROLLBACK = "FETCH_SONGS_ROLLBACK"
 }
 
 export function logoutUser() {
-  localStorage.removeItem("access_token");
+  localStorage.removeItem("token");
+  localStorage.removeItem("band");
   return (dispatch: Dispatch) => {
     dispatch({
       type: ActionType.LOGOUT
@@ -159,8 +169,62 @@ export function joinBand(createMembership: DTC.CreateMembership) {
 }
 
 export function setBand(band: DTC.Band) {
-  return {
-    band,
-    type: ActionType.SET_BAND
+  return (dispatch: Dispatch) => {
+    localStorage.setItem("band", JSON.stringify(band));
+    dispatch({
+      band,
+      type: ActionType.SET_BAND
+    });
+  };
+}
+
+export function unsetBand() {
+  return (dispatch: Dispatch) => {
+    localStorage.removeItem("band");
+    dispatch({
+      type: ActionType.UNSET_BAND
+    });
+  };
+}
+
+export function createSong(createSong: DTC.CreateSong) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.CREATE_SONG_SUBMIT
+    });
+    authenticatedClient
+      .post("/song", createSong)
+      .then(res => {
+        dispatch({
+          type: ActionType.CREATE_SONG_COMMIT,
+          song: res.data as DTC.Song
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.CREATE_SONG_ROLLBACK
+        });
+      });
+  };
+}
+
+export function fetchSongs(band: DTC.Band) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.FETCH_SONGS_SUBMIT
+    });
+    authenticatedClient
+      .get(`/song/band/${band.id}`)
+      .then(res => {
+        dispatch({
+          type: ActionType.FETCH_SONGS_SUBMIT,
+          songs: res.data as DTC.Song[]
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.FETCH_SONGS_ROLLBACK
+        });
+      });
   };
 }
