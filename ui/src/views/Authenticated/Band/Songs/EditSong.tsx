@@ -6,13 +6,13 @@ import {
   MapDispatchToPropsParam
 } from "react-redux";
 import { AppState, QDispatchProp } from "../../../../redux/store";
-import { createSong } from "../../../../redux/actions";
+import { editSong, deleteSong } from "../../../../redux/actions";
 import { useFormik } from "formik";
-import { useBand } from "../../../../context/band-context";
 import { isInvalid } from "../../../../util/isInvalid";
 
 interface OwnProps {
   onDone: () => void;
+  song: DTC.Song;
 }
 
 interface StateProps {}
@@ -26,7 +26,8 @@ const mapStateToProps: MapStateToPropsParam<
 };
 
 interface DispatchProps {
-  dispatchAddSong: (song: DTC.CreateSong) => void;
+  dispatchEditSong: (song: DTC.EditSong) => void;
+  dispatchDeleteSong: (song: DTC.Song) => void;
 }
 
 const mapDispatchToProps: MapDispatchToPropsParam<
@@ -34,7 +35,8 @@ const mapDispatchToProps: MapDispatchToPropsParam<
   OwnProps
 > = function(dispatch: QDispatchProp) {
   return {
-    dispatchAddSong: song => dispatch(createSong(song))
+    dispatchEditSong: values => dispatch(editSong(values)),
+    dispatchDeleteSong: song => dispatch(deleteSong(song))
   };
 };
 
@@ -42,7 +44,12 @@ type Props = OwnProps &
   StateProps &
   DispatchProps & { dispatch?: QDispatchProp };
 
-function _AddSong({ dispatchAddSong, onDone }: Props) {
+function _EditSong({
+  dispatchEditSong,
+  dispatchDeleteSong,
+  onDone,
+  song
+}: Props) {
   const {
     handleSubmit,
     handleBlur,
@@ -51,13 +58,9 @@ function _AddSong({ dispatchAddSong, onDone }: Props) {
     errors,
     isSubmitting
   } = useFormik({
-    initialValues: {
-      title: "",
-      key: "",
-      bandID: useBand().id
-    },
+    initialValues: song,
     onSubmit: (values, actions) => {
-      dispatchAddSong(values);
+      dispatchEditSong(values);
       actions.setSubmitting(true);
       onDone();
     }
@@ -73,7 +76,6 @@ function _AddSong({ dispatchAddSong, onDone }: Props) {
             onChange={handleChange}
             onBlur={handleBlur}
             name="title"
-            required={true}
             placeholder="enter a title"
             type="text"
           />
@@ -85,27 +87,34 @@ function _AddSong({ dispatchAddSong, onDone }: Props) {
             onChange={handleChange}
             onBlur={handleBlur}
             name="key"
-            required={true}
             placeholder="enter a key"
             type="text"
           />
         </div>
-
         <div>
           <button
             className="btn"
             type="submit"
             disabled={isSubmitting || isInvalid({ values, errors })}
           >
-            Add Song
+            Update Song
           </button>
+          <a
+            className="btn danger float-right"
+            onClick={() => {
+              dispatchDeleteSong(song);
+              onDone();
+            }}
+          >
+            Delete Song
+          </a>
         </div>
       </form>
     </div>
   );
 }
 
-export const AddSong = connect<StateProps, DispatchProps, OwnProps, AppState>(
+export const EditSong = connect<StateProps, DispatchProps, OwnProps, AppState>(
   mapStateToProps,
   mapDispatchToProps
-)(_AddSong);
+)(_EditSong);

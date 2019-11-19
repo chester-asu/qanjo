@@ -12,6 +12,7 @@ export type CreateMembershipAction = Action<ActionType> & {
 export type SetBandAction = Action<ActionType> & { band: DTC.Band };
 export type CreateSongAction = Action<ActionType> & { song: DTC.Song };
 export type FetchSongsAction = Action<ActionType> & { songs: DTC.Song[] };
+export type DeleteSongAction = Action<ActionType> & { song: DTC.Song };
 
 export enum ActionType {
   LOGOUT = "LOGOUT",
@@ -42,6 +43,14 @@ export enum ActionType {
   CREATE_SONG_SUBMIT = "CREATE_SONG_SUBMIT",
   CREATE_SONG_COMMIT = "CREATE_SONG_COMMIT",
   CREATE_SONG_ROLLBACK = "CREATE_SONG_ROLLBACK",
+
+  EDIT_SONG_SUBMIT = "EDIT_SONG_SUBMIT",
+  EDIT_SONG_COMMIT = "EDIT_SONG_COMMIT",
+  EDIT_SONG_ROLLBACK = "EDIT_SONG_ROLLBACK",
+
+  DELETE_SONG_SUBMIT = "DELETE_SONG_SUBMIT",
+  DELETE_SONG_COMMIT = "DELETE_SONG_COMMIT",
+  DELETE_SONG_ROLLBACK = "DELETE_SONG_ROLLBACK",
 
   FETCH_SONGS_SUBMIT = "FETCH_SONGS_SUBMIT",
   FETCH_SONGS_COMMIT = "FETCH_SONGS_COMMIT",
@@ -204,6 +213,49 @@ export function createSong(createSong: DTC.CreateSong) {
       .catch(err => {
         dispatch({
           type: ActionType.CREATE_SONG_ROLLBACK
+        });
+      });
+  };
+}
+
+export function editSong(song: DTC.EditSong) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.EDIT_SONG_SUBMIT
+    });
+    authenticatedClient
+      .patch("/song", song)
+      .then(res => {
+        dispatch({
+          type: ActionType.EDIT_SONG_COMMIT,
+          song: res.data as DTC.Song
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.EDIT_SONG_ROLLBACK
+        });
+      });
+  };
+}
+
+export function deleteSong(song: DTC.Song) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.DELETE_SONG_SUBMIT
+    });
+    authenticatedClient
+      .delete(`/song/${song.id}`)
+      .then(res => {
+        dispatch({
+          type: ActionType.DELETE_SONG_COMMIT,
+          song,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.DELETE_SONG_ROLLBACK,
+          song,
         });
       });
   };

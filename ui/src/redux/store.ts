@@ -1,4 +1,4 @@
-import { createStore, Store, applyMiddleware, AnyAction, compose } from "redux";
+import { createStore, applyMiddleware, AnyAction, compose } from "redux";
 import { reducers } from "./reducers";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import { DTC } from "../../dtc";

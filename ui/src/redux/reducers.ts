@@ -74,6 +74,16 @@ function songs(
     case ActionType.CREATE_SONG_COMMIT: {
       return [...state, action.song];
     }
+    case ActionType.EDIT_SONG_COMMIT: {
+      const idx = state.findIndex(song => song.id === action.song.id);
+      state.splice(idx, 1, action.song);
+      return [...state];
+    }
+    case ActionType.DELETE_SONG_COMMIT: {
+      const idx = state.findIndex(song => song.id === action.song.id);
+      state.splice(idx, 1);
+      return [...state]
+    }
     default: {
       return state;
     }

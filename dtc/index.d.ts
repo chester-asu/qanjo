@@ -46,6 +46,11 @@ export namespace DTC {
     key: string;
     bandID: number;
   };
+  type EditSong = {
+    id: number;
+    title: string;
+    key: string;
+  };
   type Song = {
     title: string;
     key: string;

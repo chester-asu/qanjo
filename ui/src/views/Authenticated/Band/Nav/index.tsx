@@ -1,9 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../../../context/auth-context";
+import { useBand } from "../../../../context/band-context";
 
 export function Nav() {
   const { logout, switchBand } = useAuth();
+  const band = useBand();
   return (
     <ul className="nav">
       <li>
@@ -30,7 +32,6 @@ export function Nav() {
         <div className="dropdown">
           <button className="dropbtn">
             Options
-            <i className="fa fa-caret-down"></i>
           </button>
           <div className="dropdown-content">
             <a href="#" onClick={switchBand}>
@@ -41,6 +42,9 @@ export function Nav() {
             </a>
           </div>
         </div>
+      </li>
+      <li className="right">
+        <div className="band-name">{band.name}</div>
       </li>
     </ul>
   );

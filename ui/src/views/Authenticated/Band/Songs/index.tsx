@@ -7,16 +7,16 @@ export function Songs() {
   const [showModal, setShowModal] = useState(false);
   return (
     <div className="container">
-      <h1>Songs</h1>
-      <button className="btn" onClick={() => setShowModal(true)}>
+      <button className="btn float-right" onClick={() => setShowModal(true)}>
         Add Song
       </button>
+      <h1>Songs</h1>
       <SongList></SongList>
       <Modal
         children={<AddSong onDone={() => setShowModal(false)} />}
         visible={showModal}
         onRequestClose={() => setShowModal(false)}
-      ></Modal>
+      />
     </div>
   );
 }
