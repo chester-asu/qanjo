@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { useAuth } from "../../../context/auth-context";
 import { DTC } from "../../../../dtc";
@@ -8,6 +8,7 @@ import {
   MapDispatchToPropsParam
 } from "react-redux";
 import { AppState, QDispatchProp } from "../../../redux/store";
+import { ActionType } from "../../../redux/actions";
 
 interface StateProps {
   registerError: string;
@@ -23,13 +24,17 @@ const mapStateToProps: MapStateToPropsParam<
   };
 };
 
-interface DispatchProps {}
+interface DispatchProps {
+  dispatchClearErrors: () => void;
+}
 
 const mapDispatchToProps: MapDispatchToPropsParam<
   DispatchProps,
   any
 > = function(dispatch: QDispatchProp) {
-  return {};
+  return {
+    dispatchClearErrors: () => dispatch({ type: ActionType.CLEAR_ERRORS })
+  };
 };
 
 type Props = StateProps & DispatchProps & { dispatch?: QDispatchProp };
@@ -40,8 +45,12 @@ const initialValues: DTC.Register = {
   email: ""
 };
 
-function _Register({ registerError }: Props) {
+function _Register({ registerError, dispatchClearErrors }: Props) {
   const { register } = useAuth();
+
+  useEffect(() => {
+    dispatchClearErrors()
+  }, []);
 
   const {
     handleSubmit,

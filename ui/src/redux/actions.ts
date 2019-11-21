@@ -2,7 +2,7 @@ import { DTC } from "../../dtc";
 import { Dispatch, Action } from "redux";
 import { unauthenticatedClient, authenticatedClient } from "../util/client";
 
-export type LoginAction = Action<ActionType> & DTC.Token;
+export type LoginAction = Action<ActionType> & DTC.Token & { error: string};
 export type RegisterAction = Action<ActionType> & DTC.Token;
 export type CreateBandAction = Action<ActionType> & { band: DTC.Band };
 export type FetchBandsAction = Action<ActionType> & { bands: DTC.Band[] };
@@ -26,6 +26,7 @@ export type DeleteListingAction = Action<ActionType> & { listing: DTC.Listing };
 
 export enum ActionType {
   LOGOUT = "LOGOUT",
+  CLEAR_ERRORS = "CLEAR_ERRORS",
 
   SET_BAND = "SET_BAND",
   UNSET_BAND = "UNSET_BAND",
@@ -145,9 +146,6 @@ export function registerUser(register: DTC.Register) {
         });
       })
       .catch(error => {
-
-        console.log(error)
-
         dispatch({
           error,
           type: ActionType.REGISTER_ROLLBACK

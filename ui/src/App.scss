@@ -40,7 +40,7 @@ body {
 * Button
 */
 .btn {
-  background-color: #4caf50; /* Green */
+  background-color: #800080; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -94,7 +94,7 @@ ul.nav {
   }
 
   .active {
-    background-color: #4caf50;
+    background-color: #800080;
   }
 
   .dropdown {
@@ -173,7 +173,7 @@ i {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #4caf50;
+    background-color: #800080;
     color: white;
   }
 
@@ -191,4 +191,8 @@ i {
 .card {
   padding: 8px 16px;
   width: 100px;
+  .btn {
+    width: 400px;
+    text-align: center;
+  }
 }

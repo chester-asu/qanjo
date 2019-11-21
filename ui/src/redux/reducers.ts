@@ -41,6 +41,7 @@ function loginError(state = "", action: LoginAction) {
     case ActionType.LOGIN_ROLLBACK: {
       return "Incorrect username and password combination";
     }
+    case ActionType.CLEAR_ERRORS:
     case ActionType.LOGIN_SUBMIT:
     case ActionType.LOGIN_COMMIT: {
       return "";
@@ -54,8 +55,11 @@ function loginError(state = "", action: LoginAction) {
 function registerError(state = "", action: LoginAction) {
   switch (action.type) {
     case ActionType.REGISTER_ROLLBACK: {
-      return "Incorrect username and password combination";
+      return action.error.toString().includes("409")
+        ? "User already exists"
+        : "Please enter a valid username, password, and email address";
     }
+    case ActionType.CLEAR_ERRORS:
     case ActionType.REGISTER_SUBMIT:
     case ActionType.REGISTER_COMMIT: {
       return "";

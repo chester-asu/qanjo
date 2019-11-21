@@ -31,7 +31,7 @@ export class UserService {
           status: HttpStatus.CONFLICT,
           error: 'User already exists',
         },
-        400,
+        409,
       );
     }
 
