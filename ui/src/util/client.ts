@@ -1,13 +1,18 @@
 import axios, { AxiosRequestConfig } from "axios";
 
+const baseURL =
+  !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+    ? "http://localhost:3000/v1"
+    : "/v1";
+
 const unauthenticatedConfig: () => AxiosRequestConfig = () => ({
-  baseURL: "http://localhost:3000/v1",
+  baseURL,
   timeout: 1000,
   responseType: "json"
 });
 
 const authenticatedConfig: () => AxiosRequestConfig = () => ({
-  baseURL: "http://localhost:3000/v1",
+  baseURL,
   timeout: 1000,
   responseType: "json",
   headers: {
