@@ -11,11 +11,3 @@ In order to start up Qanjo, navigate to the root of the project and run the foll
 ```
 docker-compose up
 ```
-
-### Architecture
-##### React UI layer
-TODO
-##### NestJS API layer
-TODO
-##### PostgreSQL database layer
-TODO
