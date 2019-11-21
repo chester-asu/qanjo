@@ -28,7 +28,7 @@ export class UserService {
     if (!userIsUnique) {
       throw new HttpException(
         {
-          status: HttpStatus.BAD_REQUEST,
+          status: HttpStatus.CONFLICT,
           error: 'User already exists',
         },
         400,

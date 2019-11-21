@@ -36,6 +36,36 @@ function token(
   }
 }
 
+function loginError(state = "", action: LoginAction) {
+  switch (action.type) {
+    case ActionType.LOGIN_ROLLBACK: {
+      return "Incorrect username and password combination";
+    }
+    case ActionType.LOGIN_SUBMIT:
+    case ActionType.LOGIN_COMMIT: {
+      return "";
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+function registerError(state = "", action: LoginAction) {
+  switch (action.type) {
+    case ActionType.REGISTER_ROLLBACK: {
+      return "Incorrect username and password combination";
+    }
+    case ActionType.REGISTER_SUBMIT:
+    case ActionType.REGISTER_COMMIT: {
+      return "";
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
 function band(
   state: DTC.Band = (JSON.parse(
     localStorage.getItem("band") || "null"
@@ -143,5 +173,7 @@ export const reducers = combineReducers({
   band,
   songs,
   setlists,
-  listings
+  listings,
+  loginError,
+  registerError
 });

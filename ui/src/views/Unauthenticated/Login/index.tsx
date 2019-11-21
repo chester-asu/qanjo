@@ -2,13 +2,44 @@ import React from "react";
 import { useAuth } from "../../../context/auth-context";
 import { useFormik } from "formik";
 import { DTC } from "../../../../dtc";
+import {
+  MapStateToPropsParam,
+  connect,
+  MapDispatchToPropsParam
+} from "react-redux";
+import { AppState, QDispatchProp } from "../../../redux/store";
+
+interface StateProps {
+  loginError: string;
+}
+
+const mapStateToProps: MapStateToPropsParam<
+  StateProps,
+  any,
+  AppState
+> = function(state) {
+  return {
+    loginError: state.loginError
+  };
+};
+
+interface DispatchProps {}
+
+const mapDispatchToProps: MapDispatchToPropsParam<
+  DispatchProps,
+  any
+> = function(dispatch: QDispatchProp) {
+  return {};
+};
+
+type Props = StateProps & DispatchProps & { dispatch?: QDispatchProp };
 
 const initialValues: DTC.Login = {
   username: "",
   password: ""
 };
 
-export function Login() {
+function _Login({ loginError }: Props) {
   const { login } = useAuth();
 
   const {
@@ -35,6 +66,7 @@ export function Login() {
   return (
     <div className="container">
       <h1>Login</h1>
+      <div className="error-message">{loginError}</div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username</label>
@@ -67,3 +99,8 @@ export function Login() {
     </div>
   );
 }
+
+export const Login = connect<StateProps, DispatchProps, any, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(_Login);

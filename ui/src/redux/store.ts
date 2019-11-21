@@ -6,12 +6,14 @@ import { DTC } from "../../dtc";
 const middleware = [thunk];
 
 export interface AppState {
+  loginError: string;
+  registerError: string;
   token: string;
   bands: DTC.Band[];
   band: DTC.Band;
   songs: DTC.Song[];
   setlists: DTC.Setlist[];
-  listings: DTC.Listing[]
+  listings: DTC.Listing[];
 }
 
 export type QDispatchProp = ThunkDispatch<AppState, undefined, AnyAction>;

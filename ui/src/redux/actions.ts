@@ -145,6 +145,9 @@ export function registerUser(register: DTC.Register) {
         });
       })
       .catch(error => {
+
+        console.log(error)
+
         dispatch({
           error,
           type: ActionType.REGISTER_ROLLBACK

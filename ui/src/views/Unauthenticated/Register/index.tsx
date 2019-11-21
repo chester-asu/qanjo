@@ -2,6 +2,37 @@ import React from "react";
 import { useFormik } from "formik";
 import { useAuth } from "../../../context/auth-context";
 import { DTC } from "../../../../dtc";
+import {
+  MapStateToPropsParam,
+  connect,
+  MapDispatchToPropsParam
+} from "react-redux";
+import { AppState, QDispatchProp } from "../../../redux/store";
+
+interface StateProps {
+  registerError: string;
+}
+
+const mapStateToProps: MapStateToPropsParam<
+  StateProps,
+  any,
+  AppState
+> = function(state) {
+  return {
+    registerError: state.registerError
+  };
+};
+
+interface DispatchProps {}
+
+const mapDispatchToProps: MapDispatchToPropsParam<
+  DispatchProps,
+  any
+> = function(dispatch: QDispatchProp) {
+  return {};
+};
+
+type Props = StateProps & DispatchProps & { dispatch?: QDispatchProp };
 
 const initialValues: DTC.Register = {
   username: "",
@@ -9,7 +40,7 @@ const initialValues: DTC.Register = {
   email: ""
 };
 
-export function Register() {
+function _Register({ registerError }: Props) {
   const { register } = useAuth();
 
   const {
@@ -31,6 +62,7 @@ export function Register() {
   return (
     <div className="container">
       <h1>Register</h1>
+      <div className="error-message">{registerError}</div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username</label>
@@ -82,3 +114,8 @@ export function Register() {
     </div>
   );
 }
+
+export const Register = connect<StateProps, DispatchProps, any, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(_Register);
