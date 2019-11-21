@@ -50,17 +50,25 @@ function _JoinBand({
   }, [user, dispatchFetchBands]);
 
   return (
-    <div>
+    <div className="container">
       <h1>My Bands</h1>
-      <ul>
+      <div className="band-list">
         {bands.map(band => {
           return (
-            <li key={band.id}>
-              <a onClick={() => dispatchSetBand(band)}>{band.name}</a>
-            </li>
+            <div className="card">
+              <div className="card-body">
+                <a
+                  href="#"
+                  className="btn btn-primary"
+                  onClick={() => dispatchSetBand(band)}
+                >
+                  {band.name}
+                </a>
+              </div>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }

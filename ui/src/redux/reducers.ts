@@ -6,7 +6,9 @@ import {
   SetBandAction,
   CreateBandAction,
   CreateSongAction,
-  FetchSongsAction
+  FetchSongsAction,
+  FetchSetlistsAction,
+  CreateSetlistAction
 } from "./actions";
 import { DTC } from "../../dtc";
 
@@ -80,9 +82,7 @@ function songs(
       return [...state];
     }
     case ActionType.DELETE_SONG_COMMIT: {
-      const idx = state.findIndex(song => song.id === action.song.id);
-      state.splice(idx, 1);
-      return [...state]
+      return state.filter(song => song.id !== action.song.id);
     }
     default: {
       return state;
@@ -90,4 +90,35 @@ function songs(
   }
 }
 
-export const reducers = combineReducers({ token, bands, band, songs });
+function setlists(
+  state: DTC.Setlist[] = [],
+  action: FetchSetlistsAction & CreateSetlistAction
+) {
+  switch (action.type) {
+    case ActionType.FETCH_SETLISTS_COMMIT: {
+      return [...action.setlists];
+    }
+    case ActionType.CREATE_SETLIST_COMMIT: {
+      return [...state.concat(action.setlist)];
+    }
+    case ActionType.DELETE_SETLIST_COMMIT: {
+      return state.filter(setlist => setlist.id !== action.setlist.id);
+    }
+    case ActionType.EDIT_SETLIST_COMMIT: {
+      const idx = state.findIndex(setlist => setlist.id === action.setlist.id);
+      state.splice(idx, 1, action.setlist);
+      return [...state];
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+export const reducers = combineReducers({
+  token,
+  bands,
+  band,
+  songs,
+  setlists
+});

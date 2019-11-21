@@ -57,4 +57,25 @@ export namespace DTC {
     band: DTC.Band;
     id: number;
   };
+  type CreateListing = {
+    songID: number
+    setlistID: number;
+  }
+  type Listing = {
+    id: number;
+    song: DTC.Song;
+    setlist: DTC.Setlist;
+  }
+  type CreateSetlist = {
+    title: string;
+    bandID: number;
+  }
+  type EditSetlist = {
+    title: string;
+  }
+  type Setlist = {
+    id: number;
+    title: string;
+    band: DTC.Band;
+  }
 }

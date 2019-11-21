@@ -18,9 +18,6 @@ export class Setlist {
   @Column({ length: 140 })
   title: string;
 
-  @Column({ length: 10 })
-  key: string;
-
   @OneToMany(type => Listing, listing => listing.setlist)
   listings: Listing[];
 

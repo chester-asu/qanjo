@@ -2,9 +2,13 @@
 * Global
 */
 body {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   a {
     cursor: pointer;
+  }
+
+  h1 {
+    font-size: 2em;
   }
 }
 

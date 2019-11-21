@@ -14,6 +14,9 @@ export type CreateSongAction = Action<ActionType> & { song: DTC.Song };
 export type FetchSongsAction = Action<ActionType> & { songs: DTC.Song[] };
 export type DeleteSongAction = Action<ActionType> & { song: DTC.Song };
 
+export type FetchSetlistsAction = Action<ActionType> & { setlists: DTC.Setlist[] };
+export type CreateSetlistAction = Action<ActionType> & { setlist: DTC.Setlist };
+
 export enum ActionType {
   LOGOUT = "LOGOUT",
 
@@ -39,6 +42,22 @@ export enum ActionType {
   FETCH_BANDS_SUBMIT = "FETCH_BANDS_SUBMIT",
   FETCH_BANDS_COMMIT = "FETCH_BANDS_COMMIT",
   FETCH_BANDS_ROLLBACK = "FETCH_BANDS_ROLLBACK",
+
+  FETCH_SETLISTS_SUBMIT = "FETCH_SETLISTS_SUBMIT",
+  FETCH_SETLISTS_COMMIT = "FETCH_SETLISTS_COMMIT",
+  FETCH_SETLISTS_ROLLBACK = "FETCH_SETLISTS_ROLLBACK",
+
+  CREATE_SETLIST_SUBMIT = "CREATE_SETLIST_SUBMIT",
+  CREATE_SETLIST_COMMIT = "CREATE_SETLIST_COMMIT",
+  CREATE_SETLIST_ROLLBACK = "CREATE_SETLIST_ROLLBACK",
+
+  EDIT_SETLIST_SUBMIT = "EDIT_SETLIST_SUBMIT",
+  EDIT_SETLIST_COMMIT = "EDIT_SETLIST_COMMIT",
+  EDIT_SETLIST_ROLLBACK = "EDIT_SSETLIST_ROLLBACK",
+
+  DELETE_SETLIST_SUBMIT = "DELETE_SETLIST_SUBMIT",
+  DELETE_SETLIST_COMMIT = "DELETE_SETLIST_COMMIT",
+  DELETE_SETLIST_ROLLBACK = "DELETE_SETLIST_ROLLBACK",
 
   CREATE_SONG_SUBMIT = "CREATE_SONG_SUBMIT",
   CREATE_SONG_COMMIT = "CREATE_SONG_COMMIT",
@@ -196,6 +215,91 @@ export function unsetBand() {
     });
   };
 }
+export function createSetlist(createSetlist: DTC.CreateSetlist) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.CREATE_SETLIST_SUBMIT
+    });
+    authenticatedClient
+      .post("/setlist", createSetlist)
+      .then(res => {
+        dispatch({
+          type: ActionType.CREATE_SETLIST_COMMIT,
+          setlist: res.data as DTC.Setlist
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.CREATE_SETLIST_ROLLBACK
+        });
+      });
+  };
+}
+
+export function editSetlist(editSetlist: DTC.EditSetlist) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.EDIT_SETLIST_SUBMIT
+    });
+    authenticatedClient
+      .patch("/setlist", editSetlist)
+      .then(res => {
+        dispatch({
+          type: ActionType.EDIT_SETLIST_COMMIT,
+          setlist: res.data as DTC.Setlist
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.EDIT_SETLIST_ROLLBACK
+        });
+      });
+  };
+}
+
+export function deleteSetlist(setlist: DTC.Setlist) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.DELETE_SETLIST_SUBMIT
+    });
+    authenticatedClient
+      .delete(`/setlist/${setlist.id}`)
+      .then(res => {
+        dispatch({
+          type: ActionType.DELETE_SETLIST_COMMIT,
+          setlist
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.DELETE_SETLIST_ROLLBACK,
+          setlist
+        });
+      });
+  };
+}
+
+export function fetchSetlists(band: DTC.Band) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionType.FETCH_SETLISTS_SUBMIT
+    });
+
+    authenticatedClient
+      .get(`/setlist/band/${band.id}`)
+      .then(res => {
+        dispatch({
+          type: ActionType.FETCH_SETLISTS_COMMIT,
+          setlists: res.data as DTC.Setlist[]
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: ActionType.FETCH_SETLISTS_ROLLBACK
+        });
+      });
+  };
+}
 
 export function createSong(createSong: DTC.CreateSong) {
   return async (dispatch: Dispatch) => {
@@ -249,13 +353,13 @@ export function deleteSong(song: DTC.Song) {
       .then(res => {
         dispatch({
           type: ActionType.DELETE_SONG_COMMIT,
-          song,
+          song
         });
       })
       .catch(err => {
         dispatch({
           type: ActionType.DELETE_SONG_ROLLBACK,
-          song,
+          song
         });
       });
   };

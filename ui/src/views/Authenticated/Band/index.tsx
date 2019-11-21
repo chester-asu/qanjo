@@ -7,9 +7,9 @@ import {
 } from "react-router-dom";
 import { Nav } from "./Nav";
 import { Gigs } from "./Gigs";
-import { Setlists } from "./Setlists";
 import { Songs } from "./Songs";
 import { Home } from "./Home";
+import { Setlists } from "./Setlists";
 
 export function Band() {
   return (
