@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { DTC } from "../../../../../../dtc";
 import {
   MapStateToPropsParam,
@@ -6,10 +6,7 @@ import {
   MapDispatchToPropsParam
 } from "react-redux";
 import { AppState, QDispatchProp } from "../../../../../redux/store";
-import { Modal } from "../../../../../common/Modal";
-import { EditSetlist } from "./EditSetlist";
-import { fetchSetlists } from "../../../../../redux/actions";
-import { useBand } from "../../../../../context/band-context";
+import { useHistory } from "react-router";
 
 interface StateProps {
   setlists: DTC.Setlist[];
@@ -25,32 +22,20 @@ const mapStateToProps: MapStateToPropsParam<
   };
 };
 
-interface DispatchProps {
-  dispatchFetchSetlists: (band: DTC.Band) => void;
-}
+interface DispatchProps {}
 
 const mapDispatchToProps: MapDispatchToPropsParam<
   DispatchProps,
   any
 > = function(dispatch: QDispatchProp) {
-  return {
-    dispatchFetchSetlists: band => dispatch(fetchSetlists(band))
-  };
+  return {};
 };
 
 type Props = StateProps & DispatchProps & { dispatch: QDispatchProp };
 
-function _SetlistList({ setlists, dispatchFetchSetlists }: Props) {
-  const band = useBand();
+function _SetlistList({ setlists }: Props) {
+  const history = useHistory();
 
-  useEffect(() => {
-    dispatchFetchSetlists(band);
-  }, [band, dispatchFetchSetlists]);
-
-  const [selectedSetlist, setSelectedSetlist] = useState(
-    (null as any) as DTC.Setlist
-  );
-  
   return (
     <>
       <table className="table">
@@ -62,23 +47,16 @@ function _SetlistList({ setlists, dispatchFetchSetlists }: Props) {
         <tbody>
           {setlists.map(setlist => {
             return (
-              <tr key={setlist.id} onClick={() => setSelectedSetlist(setlist)}>
+              <tr
+                key={setlist.id}
+                onClick={() => history.push(`/setlists/${setlist.id}`)}
+              >
                 <td>{setlist.title}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <Modal
-        children={
-          <EditSetlist
-            onDone={() => setSelectedSetlist((null as any) as DTC.Song)}
-            setlist={selectedSetlist}
-          />
-        }
-        visible={!!selectedSetlist}
-        onRequestClose={() => setSelectedSetlist((null as any) as DTC.Song)}
-      />
     </>
   );
 }

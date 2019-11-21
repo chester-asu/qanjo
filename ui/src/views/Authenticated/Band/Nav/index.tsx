@@ -10,7 +10,7 @@ export function Nav() {
     <ul className="nav">
       <li>
         <NavLink activeClassName="active" to="/home">
-          Home
+          {band.name}
         </NavLink>
       </li>
       <li>
@@ -24,15 +24,8 @@ export function Nav() {
         </NavLink>
       </li>
       <li>
-        <NavLink activeClassName="active" to="/gigs">
-          Gigs
-        </NavLink>
-      </li>
-      <li>
         <div className="dropdown">
-          <button className="dropbtn">
-            Options
-          </button>
+          <button className="dropbtn">Options</button>
           <div className="dropdown-content">
             <a href="#" onClick={switchBand}>
               Switch Band
@@ -42,9 +35,6 @@ export function Nav() {
             </a>
           </div>
         </div>
-      </li>
-      <li className="right">
-        <div className="band-name">{band.name}</div>
       </li>
     </ul>
   );

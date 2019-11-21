@@ -56,15 +56,9 @@ function _JoinBand({
         {bands.map(band => {
           return (
             <div className="card">
-              <div className="card-body">
-                <a
-                  href="#"
-                  className="btn btn-primary"
-                  onClick={() => dispatchSetBand(band)}
-                >
-                  {band.name}
-                </a>
-              </div>
+              <a className="btn" onClick={() => dispatchSetBand(band)}>
+                {band.name}
+              </a>
             </div>
           );
         })}

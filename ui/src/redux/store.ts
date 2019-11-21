@@ -11,6 +11,7 @@ export interface AppState {
   band: DTC.Band;
   songs: DTC.Song[];
   setlists: DTC.Setlist[];
+  listings: DTC.Listing[]
 }
 
 export type QDispatchProp = ThunkDispatch<AppState, undefined, AnyAction>;

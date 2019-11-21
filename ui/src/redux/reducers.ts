@@ -8,7 +8,9 @@ import {
   CreateSongAction,
   FetchSongsAction,
   FetchSetlistsAction,
-  CreateSetlistAction
+  CreateSetlistAction,
+  FetchListingsAction,
+  CreateListingAction
 } from "./actions";
 import { DTC } from "../../dtc";
 
@@ -115,10 +117,31 @@ function setlists(
   }
 }
 
+function listings(
+  state: DTC.Listing[] = [],
+  action: FetchListingsAction & CreateListingAction
+) {
+  switch (action.type) {
+    case ActionType.FETCH_LISTINGS_COMMIT: {
+      return [...action.listings];
+    }
+    case ActionType.CREATE_LISTING_COMMIT: {
+      return [...state.concat(action.listing)];
+    }
+    case ActionType.DELETE_LISTING_COMMIT: {
+      return state.filter(setlist => setlist.id !== action.listing.id);
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
 export const reducers = combineReducers({
   token,
   bands,
   band,
   songs,
-  setlists
+  setlists,
+  listings
 });
