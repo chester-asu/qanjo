@@ -49,7 +49,7 @@ function _Register({ registerError, dispatchClearErrors }: Props) {
   const { register } = useAuth();
 
   useEffect(() => {
-    dispatchClearErrors()
+    dispatchClearErrors();
   }, []);
 
   const {
