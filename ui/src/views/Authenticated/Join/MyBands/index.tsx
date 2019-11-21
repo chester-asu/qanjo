@@ -55,7 +55,7 @@ function _JoinBand({
       <div className="band-list">
         {bands.map(band => {
           return (
-            <div className="card">
+            <div key={band.id} className="card">
               <a className="btn" onClick={() => dispatchSetBand(band)}>
                 {band.name}
               </a>
