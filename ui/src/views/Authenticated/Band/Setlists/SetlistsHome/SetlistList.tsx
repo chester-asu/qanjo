@@ -57,6 +57,7 @@ function _SetlistList({ setlists }: Props) {
           })}
         </tbody>
       </table>
+      {setlists.length === 0 && "You better add some setlists!"}
     </>
   );
 }

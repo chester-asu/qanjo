@@ -53,11 +53,12 @@ function _CreateListing({
   return (
     <div>
       <h1>Choose a Song</h1>
-      {songs.map(song => {
-        return (
-          <div key={song.id} className="card">
+      <div className="list-group">
+        {songs.map(song => {
+          return (
             <a
-              className="btn"
+              key={song.id}
+              className="list-group-item list-group-item-action"
               onClick={() => {
                 dispatchCreateListing({
                   setlistID: setlist.id,
@@ -68,9 +69,9 @@ function _CreateListing({
             >
               {song.title}
             </a>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

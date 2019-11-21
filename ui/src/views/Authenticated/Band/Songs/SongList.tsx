@@ -71,6 +71,7 @@ function _SongList({ songs, dispatchFetchSongs }: Props) {
           })}
         </tbody>
       </table>
+      {songs.length === 0 && "You better add some songs!"}
       <Modal
         children={
           <EditSong
